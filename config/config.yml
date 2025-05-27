@@ -1,5 +1,2 @@
 api_keys:
-  tipranks: "your_api_key_here"
-  settings:
-  default_period: "1y"
-  default_interval: "1d"
+  tipranks: ""
