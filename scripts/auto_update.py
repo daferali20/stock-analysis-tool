@@ -1,12 +1,14 @@
-import time
-import src.data_fetcher as df
-
-TICKERS = ['AAPL', 'TSLA', 'MSFT']  # قائمة الأسهم المتابعة
+from src.data_fetcher import fetch_stock_data
+import pandas as pd
 
 def update_data():
-    for ticker in TICKERS:
-        data = df.fetch_stock_data(ticker)
-        # ... (كود الحفظ في CSV أو قاعدة بيانات)
+    tickers = ['AAPL', 'MSFT', 'GOOGL']
+    result = {}
+    for ticker in tickers:
+        df = fetch_stock_data(ticker)
+        if not df.empty:
+            result[ticker] = df.iloc[-1].to_dict()
+    pd.DataFrame(result).T.to_csv('data/updated_stocks.csv')
 
 if __name__ == "__main__":
     update_data()
