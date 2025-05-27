@@ -3,7 +3,7 @@ from data_fetcher import fetch_stock_data
 from financial_analysis import calculate_composite_score
 from analyst_ratings import AnalystRatings
 from src.alerts import check_alerts
-from financial_analysis import ...
+
 
 
 def display_alerts(analysis_result):
