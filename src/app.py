@@ -1,5 +1,5 @@
 import streamlit as st
-from src.data_fetcher import fetch_stock_data
+from data_fetcher import fetch_stock_data
 from src.financial_analysis import *
 from src.analyst_ratings import AnalystRatings
 from src.alerts import check_alerts
