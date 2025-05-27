@@ -1,4 +1,5 @@
 api_keys:
+  polygon: "WT3I1S4AXdekRj1qHZDD9TyD8Fx5tQjC"
   tipranks: ""
   smtp:
   host: smtp.gmail.com
