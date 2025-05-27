@@ -2,6 +2,13 @@ import streamlit as st
 from src.data_fetcher import fetch_stock_data
 from src.financial_analysis import *
 from src.analyst_ratings import AnalystRatings
+from src.alerts import check_alerts
+import streamlit as st
+
+def display_alerts(analysis_result):
+    alerts = check_alerts(analysis_result)
+    for alert in alerts:
+        st.error(alert)  # يمكنك استبداله بـ st.toast أو st.markdown بتنسيق خاص
 
 def display_ratings(ticker):
     try:
