@@ -1,5 +1,6 @@
-yfinance==0.2.36
-streamlit==1.32.0
-pandas==2.0.3
-plotly==5.18.0
-python-dotenv==1.0.0
+streamlit
+yfinance
+beautifulsoup4
+pandas
+requests
+PyYAML
