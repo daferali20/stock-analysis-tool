@@ -9,7 +9,7 @@ services:
     startCommand: "streamlit run src/app.py --server.port=$PORT --server.enableCORS=false"
     envVars:
       - key: POLYGON_API_KEY
-        value: YOUR_POLYGON_API_KEY_HERE
+        value: WT3I1S4AXdekRj1qHZDD9TyD8Fx5tQjC
       - key: TIPRANKS_API_KEY
         value: YOUR_TIPRANKS_KEY_HERE (اختياري)
 
