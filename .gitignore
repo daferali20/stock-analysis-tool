@@ -9,3 +9,4 @@ venv/
 # ملفات مبنية
 __pycache__/
 *.pyc
+data/updated_stocks.csv
