@@ -1,16 +1,38 @@
-
 import streamlit as st
 from src.data_fetcher import fetch_stock_data
 from src.financial_analysis import *
 from src.analyst_ratings import AnalystRatings
 
 def display_ratings(ticker):
-    ratings = AnalystRatings.aggregate_ratings(ticker)
-    st.metric("التقييم المركب", ratings['final_rating'])
-    st.json(ratings['details'])  # لعرض التفاصيل
+    try:
+        ratings = AnalystRatings.aggregate_ratings(ticker)
+        if ratings:
+            st.metric("التقييم المركب", ratings.get('final_rating', 'غير متوفر'))
+            st.subheader("تفاصيل التحليل")
+            st.json(ratings.get('details', {}))
+        else:
+            st.warning("لم يتم العثور على تقييمات للمحللين.")
+    except Exception as e:
+        st.error(f"حدث خطأ أثناء جلب التقييمات: {e}")
+
 def main():
-    st.title("Stock Analysis Dashboard")
-    # ... (كود الواجهة)
+    st.title("لوحة تحليل الأسهم")
+    ticker = st.text_input("أدخل رمز السهم (مثل AAPL):").upper().strip()
+
+    if st.button("عرض التحليل"):
+        if not ticker:
+            st.warning("يرجى إدخال رمز السهم.")
+            return
+        
+        try:
+            st.subheader("بيانات السهم")
+            data = fetch_stock_data(ticker)
+            st.write(data.head())  # مثال: عرض أول البيانات
+
+            st.subheader("تحليل المحللين")
+            display_ratings(ticker)
+        except Exception as e:
+            st.error(f"حدث خطأ أثناء تحليل السهم: {e}")
 
 if __name__ == "__main__":
     main()
