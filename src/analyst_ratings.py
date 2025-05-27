@@ -46,15 +46,46 @@ class AnalystRatings:
             print(f"[TradingView] Error scraping {ticker}: {e}")
             return None
 
+    @staticmethod
+    def get_polygon_rating(ticker: str, api_key: str) -> Optional[Dict]:
+        """
+        استخدام API من Polygon.io لجلب بيانات تقييم المحللين أو بيانات الأسهم.
+        يمكن تعديل نقطة النهاية حسب توفر البيانات.
+        """
+        try:
+            url = f"https://api.polygon.io/v3/reference/analysts/{ticker}?apiKey={api_key}"
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+            # مثال على معالجة الرد - يجب تعديل حسب هيكل الرد الحقيقي من Polygon
+            if 'results' in data and len(data['results']) > 0:
+                # هنا نأخذ متوسط تقييمات المحللين (كمثال)
+                scores = [r.get('rating') for r in data['results'] if r.get('rating') is not None]
+                if scores:
+                    mean_rating = sum(scores) / len(scores)
+                    return {
+                        'mean_rating': mean_rating,
+                        'analyst_count': len(scores),
+                        'details': data['results']
+                    }
+            return None
+        except Exception as e:
+            print(f"[Polygon.io] Error fetching ratings for {ticker}: {e}")
+            return None
+
     @classmethod
     def aggregate_ratings(cls, ticker: str) -> Dict[str, Union[float, Dict]]:
         config = cls._load_config()
+        polygon_api_key = config.get('api_keys', {}).get('polygon')
         sources = {
             'yahoo': cls.get_yahoo_analyst_ratings(ticker),
-            'tradingview': cls.get_tradingview_rating(ticker)
+            'tradingview': cls.get_tradingview_rating(ticker),
         }
 
-        weights = {'yahoo': 0.6, 'tradingview': 0.4}
+        if polygon_api_key:
+            sources['polygon'] = cls.get_polygon_rating(ticker, polygon_api_key)
+
+        weights = {'yahoo': 0.5, 'tradingview': 0.3, 'polygon': 0.2}
         weighted_sum = 0.0
         total_weight = 0.0
 
@@ -66,6 +97,9 @@ class AnalystRatings:
                 total_weight += weights[source]
             elif source == 'tradingview' and isinstance(data, float):
                 weighted_sum += data * weights[source]
+                total_weight += weights[source]
+            elif source == 'polygon' and data.get('mean_rating'):
+                weighted_sum += data['mean_rating'] * weights[source]
                 total_weight += weights[source]
 
         final_rating = round(weighted_sum / total_weight, 2) if total_weight > 0 else None
