@@ -1,4 +1,5 @@
-from .analyst_ratings import AnalystRatings
+from analyst_ratings import AnalystRatings
+
 import logging
 
 logger = logging.getLogger(__name__)
