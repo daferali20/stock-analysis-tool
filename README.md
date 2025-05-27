@@ -13,7 +13,7 @@
 
 ## التشغيل
 ```bash
-git clone https://github.com/yourusername/stock-analysis-tool.git
+git clone https://github.com/daferali20/stock-analysis-tool.git
 cd stock-analysis-tool
 pip install -r requirements.txt
 streamlit run src/app.py
