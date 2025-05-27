@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: stock-analysis-dashboard
+    env: python
+    plan: free
+    repo: https://github.com/daferali20/stock-analysis-tool  # ← عدّل هذا للسحب من GitHub
+    branch: main
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "streamlit run src/app.py --server.port=$PORT --server.enableCORS=false"
+    envVars:
+      - key: POLYGON_API_KEY
+        value: YOUR_POLYGON_API_KEY_HERE
+      - key: TIPRANKS_API_KEY
+        value: YOUR_TIPRANKS_KEY_HERE (اختياري)
+
+  - type: cron
+    name: auto-stock-update
+    env: python
+    schedule: "0 * * * *"  # كل ساعة
+    repo: https://github.com/USERNAME/REPO-NAME  # ← عدّل هذا أيضاً
+    branch: main
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python scripts/auto_update.py"
+    envVars:
+      - key: POLYGON_API_KEY
+        value: YOUR_POLYGON_API_KEY_HERE
