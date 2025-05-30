@@ -9,7 +9,7 @@ services:
     startCommand: "streamlit run src/app.py --server.port=$PORT --server.enableCORS=false"
     envVars:
       - key: POLYGON_API_KEY
-        value: WT3I1S4AXdekRj1qHZDD9TyD8Fx5tQjC
+        value: 70D7rupiLla29W4BPvlIr9UGp25_XnuQ
       - key: TIPRANKS_API_KEY
         value: YOUR_TIPRANKS_KEY_HERE (اختياري)
 
@@ -23,4 +23,4 @@ services:
     startCommand: "python scripts/auto_update.py"
     envVars:
       - key: POLYGON_API_KEY
-        value: YOUR_POLYGON_API_KEY_HERE
+        value: 70D7rupiLla29W4BPvlIr9UGp25_XnuQ
